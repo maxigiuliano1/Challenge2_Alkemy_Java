@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http:/www.thymleaf.org">
+    <head th:replace="homeAuth :: head">
+        <meta charset='utf-8'>
+        <title>Posts</title>
+    </head>
+    <body>
+        <header th:replace = "homeAuth :: header"></header>
+
+        <!--CONTENIDO PARA FILTRAR BLOGS POR ID-->
+        <div class="container mt-5">
+            <div class="col-md-8">
+                <!--BUSCADOR-->
+                <form class="form-inline my-2 my-lg-0" th:action="@{/auth/posts/id}" th:object="${blog}" method="GET">
+                    <h3 class="mr-sm-2 container text-center" th:text="${search}"></h3>
+                    <h4 class="text-center">List of Blogs</h4>
+                    <input type="text" th:field="*{id}" class="form-control mr-sm-2 container" placeholder="Enter 'Id'">
+                    <button type="submit" class="btn btn-success">Search</button>
+                </form>
+                
+                <!--TABLA PARA MOSTRAR LOS DATOS DEL BLOB OBTENIDOS POR LA BUSQUEDA-->
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Creation Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="blogs : ${listBlog}">
+                            <th scope="row" th:text="${blogs.id}"></th>
+                            <td th:text="${blogs.title}"></td>
+                            <td th:text="${blogs.image}"></td>
+                            <td th:text="${blogs.category}"></td>
+                            <td th:text="${blogs.creationDate}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+            </div>
+        </div>
+
+        <!--PIE DE PAGINA-->
+        <footer th:replace="homeAuth :: footer"></footer>
+    </body>
+</html>

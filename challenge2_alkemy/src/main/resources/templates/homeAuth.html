@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http:/www.thymleaf.org">
+    <head th:fragment="head">
+        <meta charset='utf-8'>
+        <title>Challenge 2 Alkemy</title>
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    </head>
+    <body>
+        <!--BARRA DE NAVEGACION-->
+        <header th:fragment="header">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+                    <a th:href="@{/auth/}" class="navbar-brand">
+                        <img src="https://www.alkemy.org/assets/images/logo-header.png" alt="logo" width="150">
+                    </a>
+                    
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+
+                    <!--ENLACES DEL MENU-->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/auth/}">Home <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/auth/createBlog}">Create Blog</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/auth/posts/title}">SearchTitle</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/auth/posts/category}">SearchCategory</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/auth/posts/id}">SearchId</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/logout}">Logout</a> <!--falta el enlace para desloguearse que lleve al inicio para registrarse o loguearse en caso de ya contar con un usuario-->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!--MENSAJES POR VENTANA AL USUARIO AL HACER CIERTAS ACCIONES-->
+            <div class="alert alert-success alert-dismissible" th:if="${success != null}">
+                <label th:text="${success}"></label>
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+
+            <div class="alert alert-danger alert-dismissible" th:if="${error != null}">
+                <label th:text="${error}"></label>
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+
+            <div class="alert alert-warning alert-dismissible" th:if="${warning != null}">
+                <label th:text="${warning}"></label>
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+
+            <div class="alert alert-success alert-dismissible" th:if="${info != null}">
+                <label th:text="${info}"></label>
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        </header>
+        
+        <!--CONTENIDO LISTADO DE TODOS LOS BLOGS CREADOS POR EL USUARIO-->
+        <div class="container">
+            <h3 class="text-center">All List of Blogs</h3>
+            <!--ACA IRIAN TODAS LAS LISTAS A MOSTRAR SIN NINGUN FILTRO POR CATEGORIA TITULO O ID-->
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Creation Date</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="blog : ${listBlog}">
+                        <th scope="row" th:text="${blog.id}"></th>
+                        <td th:text="${blog.title}"></td>
+                        <td th:text="${blog.image}"></td>
+                        <td th:text="${blog.category}"></td>
+                        <td th:text="${#dates.format(blog.creationDate, 'dd/MMM/yyyy')}"></td>
+                        <td>
+                            <a class="btn btn-success btn-sm" th:href="@{/auth/edit/} + ${blog.id}" th:text="'Edit'" title="Edit Blog"></a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" th:href="@{/auth/delete/} + ${blog.id}" th:text="'Delete'" title="Delete Blog" 
+                            onclick="return confirm('Are you sure you want to delete the blog ?')"></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!--PIE DE PAGINA-->
+        <footer th:fragment="footer" class="bg-dark text-center text-white fixed-bottom">
+            <div class="container">
+                <p>Creator Maximiliano Gabriel, Giuliano &copy; -2021</p>
+            </div>
+
+            <script type="text/javascript" th:href="@{/js/jquery-3.3.1.slim.min.js}"></script>
+            <script type="text/javascript" th:href="@{/js/popper.min.js}"></script>
+            <script type="text/javascript" th:href="@{/js/bootstrap.min.js}"></script>
+        </footer>
+    </body>
+</html>
